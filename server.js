@@ -25,6 +25,10 @@ app.use(express.static("public", { maxAge: "1h" }));
 
 app.use(morgan("tiny"));
 
+app.get("/external", (req, res, next) => {
+  res.send('<h1>Success!</h1><a href="/">back</a>');
+});
+
 app.all(
   "*",
   process.env.NODE_ENV === "development"
