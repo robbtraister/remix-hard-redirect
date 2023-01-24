@@ -4,7 +4,11 @@ import { Form } from "@remix-run/react";
 
 export async function action(args: ActionArgs) {
   const data = await args.request.formData();
-  return data.get("action") === "redirect" ? redirect("/external") : null;
+  return data.get("action") === "redirect" ? redirect("/external", {
+    headers: {
+      "X-Remix-Hard-Redirect": "true"
+    }
+  }) : null;
 }
 
 export default function Index() {
