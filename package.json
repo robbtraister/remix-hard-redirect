@@ -6,6 +6,7 @@
     "dev": "remix build && run-p \"dev:*\"",
     "dev:node": "cross-env NODE_ENV=development nodemon --require dotenv/config ./server.js --watch ./server.js",
     "dev:remix": "remix watch",
+    "postinstall": "patch-package",
     "start": "cross-env NODE_ENV=production node ./server.js",
     "typecheck": "tsc"
   },
@@ -30,6 +31,8 @@
     "eslint": "^8.27.0",
     "nodemon": "^2.0.20",
     "npm-run-all": "^4.1.5",
+    "patch-package": "^6.5.1",
+    "postinstall-postinstall": "^2.1.0",
     "typescript": "^4.8.4"
   },
   "engines": {
