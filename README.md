@@ -14,7 +14,7 @@ The problem with this approach is that if the redirect origin is identical to th
 
 In order to support the noscript case, we must still return a redirect response. But since remix does not support any data payload in a redirect, the only way to pass data to the hydrated fetch case is via header.
 
-The proposed solution is to set an `X-Remix-Hard-Redirect` header, alerting the client routing to perform an external redirect.
+The proposed solution is to set an `X-Remix-Reload-Document` header, alerting the client routing to perform an external redirect.
 
 ## Setup
 
@@ -26,7 +26,7 @@ yarn
 
 ## Development
 
-After install dependencies, to run the development server:
+After installing dependencies, to run the development server:
 
 ```sh
 yarn dev
