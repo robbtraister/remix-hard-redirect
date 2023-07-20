@@ -1,8 +1,18 @@
 diff --git a/node_modules/@remix-run/router/dist/router.cjs.js b/node_modules/@remix-run/router/dist/router.cjs.js
-index c8d73de..3d0988a 100644
+index c8d73de..da5afaa 100644
 --- a/node_modules/@remix-run/router/dist/router.cjs.js
 +++ b/node_modules/@remix-run/router/dist/router.cjs.js
-@@ -2597,18 +2597,30 @@ function createRouter(init) {
+@@ -1398,6 +1398,9 @@ const redirect = function redirect(url, init) {
+   }
+   let headers = new Headers(responseInit.headers);
+   headers.set("Location", url);
++  if (responseInit.reloadDocument) {
++    headers.set("X-Remix-Reload-Document", "true");
++  }
+   return new Response(null, _extends({}, responseInit, {
+     headers
+   }));
+@@ -2597,18 +2600,30 @@ function createRouter(init) {
        _isFetchActionRedirect: true
      } : {}));
      invariant(redirectLocation, "Expected a location on the redirect navigation");
@@ -29,7 +39,7 @@ index c8d73de..3d0988a 100644
 +      const url = init.history.createURL(redirect.location);
 +      if (thisOrigin !== url.origin) {
 +        return true;
-       }
++      }
 +
 +      const isDifferentBasename = stripBasename(url.pathname, basename) == null;
 +      return isDifferentBasename;
@@ -39,12 +49,12 @@ index c8d73de..3d0988a 100644
 +        routerWindow.location.replace(redirect.location);
 +      } else {
 +        routerWindow.location.assign(redirect.location);
-+      }
+       }
 +      return;
      }
  
      // There's no need to abort on redirects, since we don't detect the
-@@ -3813,7 +3825,8 @@ async function callLoaderOrAction(type, request, match, matches, manifest, mapRo
+@@ -3813,7 +3828,8 @@ async function callLoaderOrAction(type, request, match, matches, manifest, mapRo
          type: ResultType.redirect,
          status,
          location,
@@ -55,10 +65,20 @@ index c8d73de..3d0988a 100644
      }
  
 diff --git a/node_modules/@remix-run/router/dist/router.js b/node_modules/@remix-run/router/dist/router.js
-index 50611e6..ecadff8 100644
+index 50611e6..0d93e81 100644
 --- a/node_modules/@remix-run/router/dist/router.js
 +++ b/node_modules/@remix-run/router/dist/router.js
-@@ -2196,18 +2196,30 @@ function createRouter(init) {
+@@ -1153,6 +1153,9 @@ const redirect = function redirect(url, init) {
+   }
+   let headers = new Headers(responseInit.headers);
+   headers.set("Location", url);
++  if (responseInit.reloadDocument) {
++    headers.set("X-Remix-Reload-Document", "true");
++  }
+   return new Response(null, _extends({}, responseInit, {
+     headers
+   }));
+@@ -2196,18 +2199,30 @@ function createRouter(init) {
        _isFetchActionRedirect: true
      } : {}));
      invariant(redirectLocation, "Expected a location on the redirect navigation");
@@ -85,7 +105,7 @@ index 50611e6..ecadff8 100644
 +      const url = init.history.createURL(redirect.location);
 +      if (thisOrigin !== url.origin) {
 +        return true;
-       }
++      }
 +
 +      const isDifferentBasename = stripBasename(url.pathname, basename) == null;
 +      return isDifferentBasename;
@@ -95,12 +115,12 @@ index 50611e6..ecadff8 100644
 +        routerWindow.location.replace(redirect.location);
 +      } else {
 +        routerWindow.location.assign(redirect.location);
-+      }
+       }
 +      return;
      }
      // There's no need to abort on redirects, since we don't detect the
      // redirect until the action/loaders have settled
-@@ -3360,7 +3372,8 @@ async function callLoaderOrAction(type, request, match, matches, manifest, mapRo
+@@ -3360,7 +3375,8 @@ async function callLoaderOrAction(type, request, match, matches, manifest, mapRo
          type: ResultType.redirect,
          status,
          location,
@@ -111,10 +131,20 @@ index 50611e6..ecadff8 100644
      }
      // For SSR single-route requests, we want to hand Responses back directly
 diff --git a/node_modules/@remix-run/router/dist/router.umd.js b/node_modules/@remix-run/router/dist/router.umd.js
-index 40139d3..b407d65 100644
+index 40139d3..7b77e33 100644
 --- a/node_modules/@remix-run/router/dist/router.umd.js
 +++ b/node_modules/@remix-run/router/dist/router.umd.js
-@@ -2599,18 +2599,30 @@
+@@ -1400,6 +1400,9 @@
+     }
+     let headers = new Headers(responseInit.headers);
+     headers.set("Location", url);
++    if (responseInit.reloadDocument) {
++      headers.set("X-Remix-Reload-Document", "true");
++    }
+     return new Response(null, _extends({}, responseInit, {
+       headers
+     }));
+@@ -2599,18 +2602,30 @@
          _isFetchActionRedirect: true
        } : {}));
        invariant(redirectLocation, "Expected a location on the redirect navigation");
@@ -141,7 +171,7 @@ index 40139d3..b407d65 100644
 +        const url = init.history.createURL(redirect.location);
 +        if (thisOrigin !== url.origin) {
 +          return true;
-         }
++        }
 +
 +        const isDifferentBasename = stripBasename(url.pathname, basename) == null;
 +        return isDifferentBasename;
@@ -151,12 +181,12 @@ index 40139d3..b407d65 100644
 +          routerWindow.location.replace(redirect.location);
 +        } else {
 +          routerWindow.location.assign(redirect.location);
-+        }
+         }
 +        return;
        }
  
        // There's no need to abort on redirects, since we don't detect the
-@@ -3815,7 +3827,8 @@
+@@ -3815,7 +3830,8 @@
            type: ResultType.redirect,
            status,
            location,
@@ -166,6 +196,19 @@ index 40139d3..b407d65 100644
          };
        }
  
+diff --git a/node_modules/@remix-run/router/dist/utils.d.ts b/node_modules/@remix-run/router/dist/utils.d.ts
+index 1e5e238..2c49095 100644
+--- a/node_modules/@remix-run/router/dist/utils.d.ts
++++ b/node_modules/@remix-run/router/dist/utils.d.ts
+@@ -442,7 +442,7 @@ export declare class DeferredData {
+ }
+ export type DeferFunction = (data: Record<string, unknown>, init?: number | ResponseInit) => DeferredData;
+ export declare const defer: DeferFunction;
+-export type RedirectFunction = (url: string, init?: number | ResponseInit) => Response;
++export type RedirectFunction = (url: string, init?: number | (ResponseInit & { reloadDocument?: boolean })) => Response;
+ /**
+  * A redirect response. Sets the status code and the `Location` header.
+  * Defaults to "302 Found".
 diff --git a/node_modules/@remix-run/router/router.ts b/node_modules/@remix-run/router/router.ts
 index 785ec73..ce98bf4 100644
 --- a/node_modules/@remix-run/router/router.ts
@@ -222,7 +265,7 @@ index 785ec73..ce98bf4 100644
      }
  
 diff --git a/node_modules/@remix-run/router/utils.ts b/node_modules/@remix-run/router/utils.ts
-index 6c7796e..1a769dc 100644
+index 6c7796e..7bd688c 100644
 --- a/node_modules/@remix-run/router/utils.ts
 +++ b/node_modules/@remix-run/router/utils.ts
 @@ -43,6 +43,7 @@ export interface RedirectResult {
@@ -233,3 +276,22 @@ index 6c7796e..1a769dc 100644
  }
  
  /**
+@@ -1441,7 +1442,7 @@ export const defer: DeferFunction = (data, init = {}) => {
+ 
+ export type RedirectFunction = (
+   url: string,
+-  init?: number | ResponseInit
++  init?: number | (ResponseInit & { reloadDocument?: boolean })
+ ) => Response;
+ 
+ /**
+@@ -1458,6 +1459,9 @@ export const redirect: RedirectFunction = (url, init = 302) => {
+ 
+   let headers = new Headers(responseInit.headers);
+   headers.set("Location", url);
++  if (responseInit.reloadDocument) {
++    headers.set("X-Remix-Reload-Document", "true");
++  }
+ 
+   return new Response(null, {
+     ...responseInit,
