@@ -1,23 +1,18 @@
 {
   "private": true,
   "sideEffects": false,
-  "resolutions": {
-    "react-router": "6.15.0-pre.0",
-    "react-router-dom": "6.15.0-pre.0"
-  },
   "scripts": {
     "build": "remix build",
     "dev": "remix build && run-p \"dev:*\"",
     "dev:node": "cross-env NODE_ENV=development nodemon --require dotenv/config ./server.js --watch ./server.js",
     "dev:remix": "remix watch",
-    "postinstall": "patch-package",
     "start": "cross-env NODE_ENV=production node ./server.js",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@remix-run/express": "^1.19.3",
-    "@remix-run/node": "^1.19.3",
-    "@remix-run/react": "^1.19.3",
+    "@remix-run/express": "0.0.0-nightly-49e8da1-20230823",
+    "@remix-run/node": "0.0.0-nightly-49e8da1-20230823",
+    "@remix-run/react": "0.0.0-nightly-49e8da1-20230823",
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
     "express": "^4.18.2",
@@ -27,16 +22,14 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@remix-run/dev": "^1.19.3",
-    "@remix-run/eslint-config": "^1.19.3",
+    "@remix-run/dev": "0.0.0-nightly-49e8da1-20230823",
+    "@remix-run/eslint-config": "0.0.0-nightly-49e8da1-20230823",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "dotenv": "^16.3.1",
     "eslint": "^8.47.0",
     "nodemon": "^3.0.1",
     "npm-run-all": "^4.1.5",
-    "patch-package": "^8.0.0",
-    "postinstall-postinstall": "^2.1.0",
     "typescript": "^5.1.6"
   },
   "engines": {
